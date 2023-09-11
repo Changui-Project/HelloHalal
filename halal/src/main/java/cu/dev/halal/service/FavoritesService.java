@@ -12,6 +12,6 @@ public interface FavoritesService {
 
     public JSONObject addFavorite(FavoriteDTO dto);
     public JSONObject deleteFavorite(FavoriteDTO dto);
-    public List<Long> getFavorites(String email);
+    public JSONObject getFavorites(String email);
 
 }

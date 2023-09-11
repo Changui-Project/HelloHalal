@@ -5,6 +5,7 @@ import cu.dev.halal.entity.UserEntity;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 
 

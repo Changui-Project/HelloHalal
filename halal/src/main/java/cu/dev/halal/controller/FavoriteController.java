@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -29,8 +30,12 @@ public class FavoriteController {
     public ResponseEntity<JSONObject> addFavorite(
             @RequestBody FavoriteDTO favoriteDTO
             ){
-        logger.info(favoriteDTO.toString());
-        return ResponseEntity.ok().body(this.favoritesService.addFavorite(favoriteDTO));
+        JSONObject jsonObject = this.favoritesService.addFavorite(favoriteDTO);
+        if(!jsonObject.get("result").equals("success")){
+            return ResponseEntity.status(400).body(jsonObject);
+        }
+
+        return ResponseEntity.status(201).body(jsonObject);
     }
 
 
@@ -38,19 +43,25 @@ public class FavoriteController {
     public ResponseEntity<JSONObject> deleteFavorite(
             @RequestBody FavoriteDTO favoriteDTO
     ){
-        logger.info(favoriteDTO.toString());
-        return ResponseEntity.ok().body(this.favoritesService.deleteFavorite(favoriteDTO));
+        JSONObject jsonObject = this.favoritesService.deleteFavorite(favoriteDTO);
+        if(jsonObject.get("result").equals("success")){
+            return ResponseEntity.status(400).body(jsonObject);
+        }
+
+        return ResponseEntity.status(200).body(jsonObject);
     }
 
     @GetMapping()
     public ResponseEntity<JSONObject> getFavorites(
             @RequestParam String email
     ){
-        List<Long> target = this.favoritesService.getFavorites(email);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("favorites", target);
+        JSONObject jsonObject = this.favoritesService.getFavorites(email);
+        List targetList = (List) jsonObject.get("favorites");
+        if(targetList.isEmpty()){
+            return ResponseEntity.status(404).body(jsonObject);
+        }
 
-        return ResponseEntity.ok().body(jsonObject);
+        return ResponseEntity.status(200).body(jsonObject);
     }
 
 

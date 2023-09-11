@@ -51,7 +51,10 @@ public class FavoritesServiceImpl implements FavoritesService {
     }
 
     @Override
-    public List<Long> getFavorites(String email) {
-        return this.favoritesDAO.getFavorites(email);
+    public JSONObject getFavorites(String email) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("favorites", (ArrayList)this.favoritesDAO.getFavorites(email));
+
+        return jsonObject;
     }
 }

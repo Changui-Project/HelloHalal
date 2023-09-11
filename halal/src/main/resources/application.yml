@@ -1,0 +1,19 @@
+# Jwt 토큰에 들어가는 secret 값
+spring:
+  jwt:
+    secret: asd
+
+
+# jpa
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+
+# database 연결관련
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/halal?createDatabaseIfNotExist=true
+    username: root
+    password: ?Qweasd7410
+

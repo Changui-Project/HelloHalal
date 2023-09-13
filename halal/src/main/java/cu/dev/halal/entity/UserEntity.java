@@ -1,5 +1,6 @@
 package cu.dev.halal.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,10 +20,12 @@ import java.util.stream.Collectors;
 @ToString
 @Builder
 @Entity
+@Table(name = "user")
 public class UserEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private long id;
 
     // email
@@ -39,9 +42,16 @@ public class UserEntity implements UserDetails {
     private List<String> roles = new ArrayList<>();
 
     @Column(nullable = false)
-    @ElementCollection
-    @Builder.Default
-    private List<Long> favorites = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<FavoriteEntity> favorites = new ArrayList<>();
+
+    // 신고 연관관계 만들어주기
+    @Column(nullable = false)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<ReportEntity> reports = new ArrayList<>();
+
 
     // 계정이 가지고 있는 권한을 리턴합니다.
     @Override

@@ -2,6 +2,7 @@ package cu.dev.halal.controller;
 
 
 import cu.dev.halal.dto.ReportDTO;
+import cu.dev.halal.entity.ReportEntity;
 import cu.dev.halal.service.ReportService;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -44,8 +45,8 @@ public class ReportController {
             @RequestParam String email
     ){
         JSONObject jsonObject = this.reportService.readAllReport(email);
-        List targetList = (ArrayList) jsonObject.get("reports");
-        if(targetList.isEmpty()){
+        List<ReportDTO> reports = (List) jsonObject.get("reports");
+        if(reports.isEmpty()){
             return ResponseEntity.status(404).body(jsonObject);
         }
 

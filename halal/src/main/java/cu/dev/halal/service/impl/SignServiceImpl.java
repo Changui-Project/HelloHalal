@@ -41,12 +41,18 @@ public class SignServiceImpl implements SignService {
     public ResponseEntity<JSONObject> signUp(LoginDTO loginDTO, String role) {
         logger.info("[getSignUpResult] 회원가입 정보 전달");
         UserEntity userEntity;
+
+        if(this.emailDuplicateCheck(loginDTO.getEmail())){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("result", "email already exists");
+            return ResponseEntity.status(400).body(jsonObject);
+            // 이메일 중복처리
+        }
         // 규칙 설정
         if(role.equalsIgnoreCase("admin")){
             userEntity = UserEntity.builder()
                     .email(loginDTO.getEmail())
                     .password(passwordEncoder.encode(loginDTO.getPassword()))
-                    .favorites(new ArrayList<>())
                     .roles(Collections.singletonList("ROLE_ADMIN"))
                     .build();
         }
@@ -54,7 +60,6 @@ public class SignServiceImpl implements SignService {
             userEntity = UserEntity.builder()
                     .email(loginDTO.getEmail())
                     .password(passwordEncoder.encode(loginDTO.getPassword()))
-                    .favorites(new ArrayList<>())
                     .roles(Collections.singletonList("ROLE_USER"))
                     .build();
         }

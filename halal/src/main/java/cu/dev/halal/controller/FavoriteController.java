@@ -44,7 +44,7 @@ public class FavoriteController {
             @RequestBody FavoriteDTO favoriteDTO
     ){
         JSONObject jsonObject = this.favoritesService.deleteFavorite(favoriteDTO);
-        if(jsonObject.get("result").equals("success")){
+        if(!jsonObject.get("result").equals("success")){
             return ResponseEntity.status(400).body(jsonObject);
         }
 

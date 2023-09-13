@@ -23,7 +23,7 @@ public class TestController {
     public ResponseEntity<String> toCoordinate(
             @RequestParam String address
     ){
-        return ResponseEntity.status(200).body(this.addressService.toCoordinate(address));
+        return ResponseEntity.status(200).body(this.addressService.toCoordinate(address).toString());
     }
 
 

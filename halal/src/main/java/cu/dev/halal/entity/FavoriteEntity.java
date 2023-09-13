@@ -5,29 +5,27 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @Builder
-public class ReportEntity {
+@Entity
+public class FavoriteEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "favorite_id")
     private Long id;
 
-    @Column(nullable = false)
-    private String title;
+    @ManyToOne()
+    @JoinColumn(name = "store_id", nullable = false)
+    private StoreEntity store;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
-
-    @Column(nullable = false)
-    private String content;
-
 
 
 }

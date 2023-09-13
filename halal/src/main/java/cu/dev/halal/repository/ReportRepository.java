@@ -10,6 +10,8 @@ import java.util.Collection;
 
 @Repository
 public interface ReportRepository extends JpaRepository<ReportEntity, Long> {
+    // Content가 같은 값이 존재하는지 확인
     public boolean existsByContent(String Content);
+    // user_id가 같은 값이 존재하는지 확인
     public boolean existsByUser(UserEntity userEntity);
 }

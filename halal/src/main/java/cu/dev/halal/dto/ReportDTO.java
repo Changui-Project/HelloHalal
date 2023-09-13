@@ -3,6 +3,7 @@ package cu.dev.halal.dto;
 
 import lombok.*;
 
+// Report Data Transfer Object
 @Builder
 @Getter
 @Setter

@@ -3,6 +3,8 @@ package cu.dev.halal.dto;
 
 import lombok.*;
 
+
+// Favorite Data Transfer Object
 @Builder
 @Setter
 @Getter

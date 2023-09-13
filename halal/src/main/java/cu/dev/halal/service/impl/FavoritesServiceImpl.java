@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 @Service
@@ -27,9 +26,10 @@ public class FavoritesServiceImpl implements FavoritesService {
         this.favoritesDAO = favoritesDAO;
     }
 
+
+    // FavoriteDTO -> FavoriteEntity
     @Override
     public JSONObject addFavorite(FavoriteDTO dto) {
-
         return this.favoritesDAO.addFavorite(
                 FavoriteEntity.builder()
                         .user(UserEntity.builder().email(dto.getEmail()).build())
@@ -37,6 +37,7 @@ public class FavoritesServiceImpl implements FavoritesService {
                         .build());
     }
 
+    // FavoriteDTO -> favoriteEntity
     @Override
     public JSONObject deleteFavorite(FavoriteDTO dto) {
         return this.favoritesDAO.deleteFavorite(
@@ -46,6 +47,7 @@ public class FavoritesServiceImpl implements FavoritesService {
                         .build());
     }
 
+    // FavoriteEntity -> Store Id 배열로 변환 후 반환
     @Override
     public JSONObject getFavorites(String email) {
         JSONObject jsonObject = new JSONObject();

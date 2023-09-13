@@ -2,7 +2,6 @@ package cu.dev.halal.controller;
 
 
 import cu.dev.halal.dto.ReportDTO;
-import cu.dev.halal.entity.ReportEntity;
 import cu.dev.halal.service.ReportService;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -10,10 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
 @RestController
 @RequestMapping("/report")
 public class ReportController {
@@ -45,11 +40,7 @@ public class ReportController {
             @RequestParam String email
     ){
         JSONObject jsonObject = this.reportService.readAllReport(email);
-        List<ReportDTO> reports = (List) jsonObject.get("reports");
-        if(reports.isEmpty()){
-            return ResponseEntity.status(404).body(jsonObject);
-        }
-
+        // Report 배열이 비어있다면 빈 객체 반환
         return ResponseEntity.status(200).body(jsonObject);
     }
 

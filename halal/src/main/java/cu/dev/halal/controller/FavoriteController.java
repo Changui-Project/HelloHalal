@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/favorite")
@@ -26,40 +24,41 @@ public class FavoriteController {
     }
 
 
-    @PostMapping()
+    // User의 즐겨찾기(찜)한 Store의 Id를 가진 정보를 저장
+    @PostMapping
     public ResponseEntity<JSONObject> addFavorite(
             @RequestBody FavoriteDTO favoriteDTO
             ){
         JSONObject jsonObject = this.favoritesService.addFavorite(favoriteDTO);
+        // result가 success가 아니라면 Bad Request 및 실패 사유를 응답
         if(!jsonObject.get("result").equals("success")){
             return ResponseEntity.status(400).body(jsonObject);
         }
-
+        // result가 success라면 Created 응답
         return ResponseEntity.status(201).body(jsonObject);
     }
 
 
-    @DeleteMapping()
+    // User의 즐겨찾기를 삭제한다.
+    @DeleteMapping
     public ResponseEntity<JSONObject> deleteFavorite(
             @RequestBody FavoriteDTO favoriteDTO
     ){
         JSONObject jsonObject = this.favoritesService.deleteFavorite(favoriteDTO);
+        // result가 success가 아니라면 Bad Request 및 실패 사유 응답
         if(!jsonObject.get("result").equals("success")){
             return ResponseEntity.status(400).body(jsonObject);
         }
-
+        // result가 success라면 Ok 응답
         return ResponseEntity.status(200).body(jsonObject);
     }
 
+    // User의 모든 즐겨찾기를 응답한다.
     @GetMapping()
     public ResponseEntity<JSONObject> getFavorites(
             @RequestParam String email
     ){
         JSONObject jsonObject = this.favoritesService.getFavorites(email);
-        List targetList = (List) jsonObject.get("favorites");
-        if(targetList.isEmpty()){
-            return ResponseEntity.status(404).body(jsonObject);
-        }
 
         return ResponseEntity.status(200).body(jsonObject);
     }

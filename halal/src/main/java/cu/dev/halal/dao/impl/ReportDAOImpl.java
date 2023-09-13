@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Repository
@@ -36,16 +35,19 @@ public class ReportDAOImpl implements ReportDAO {
     @Override
     public JSONObject createReport(ReportEntity reportEntity) {
         JSONObject jsonObject = new JSONObject();
+        // 동일한 유저가 동일한 신고글을 쓴다면 스팸처리한다.
         if(this.reportRepository.existsByContent(reportEntity.getContent())
                 && this.userRepository.existsByEmail(reportEntity.getUser().getEmail())){
             jsonObject.put("result", "spamming content");
             return jsonObject;
         }
+        // email이 User테이블에 존재한다면 신고글을 DB에 저장한다.
         if(this.userRepository.existsByEmail(reportEntity.getUser().getEmail())){
             reportEntity.setUser(this.userRepository.getByEmail(reportEntity.getUser().getEmail()));
             this.reportRepository.save(reportEntity);
             jsonObject.put("result", "success");
             return jsonObject;
+            // 유저 정보가 없다면
         }else{
             jsonObject.put("result", "email not exists");
             return jsonObject;
@@ -65,7 +67,7 @@ public class ReportDAOImpl implements ReportDAO {
 
     }
 
-    //
+    // 보류
     @Override
     public JSONObject updateReport(ReportEntity reportEntity) {
         ReportEntity targetEntity = this.reportRepository.getById(reportEntity.getId());

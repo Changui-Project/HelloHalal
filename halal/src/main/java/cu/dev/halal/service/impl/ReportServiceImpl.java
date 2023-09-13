@@ -25,7 +25,7 @@ public class ReportServiceImpl implements ReportService {
         this.reportDAO = reportDAO;
     }
 
-    // DTO를 Entity로 변환
+    // ReportDTO -> ReportEntity
     @Override
     public JSONObject createReport(ReportDTO reportDTO) {
         ReportEntity reportEntity = ReportEntity.builder()
@@ -38,7 +38,7 @@ public class ReportServiceImpl implements ReportService {
         return jsonObject;
     }
 
-    // List를 Json에 담아 반환
+    // ReportEntity List를 ReportDTO List로 변환 후 반환
     @Override
     public JSONObject readAllReport(String email) {
         List<ReportEntity> reportList = this.reportDAO.readAllReport(email);
@@ -57,6 +57,7 @@ public class ReportServiceImpl implements ReportService {
     }
 
 
+    // 보류
     @Override
     public JSONObject updateReport(ReportDTO reportDTO) {
         return null;

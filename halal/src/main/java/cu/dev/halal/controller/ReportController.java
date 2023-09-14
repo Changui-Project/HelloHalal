@@ -47,6 +47,19 @@ public class ReportController {
         return ResponseEntity.status(200).body(jsonObject);
     }
 
+    @GetMapping("/{storeId}")
+    public ResponseEntity<JSONObject> readAllReportByStore(
+            @PathVariable("storeId") Long storeId
+    ){
+        JSONObject jsonObject = this.reportService.readAllReportByStore(storeId);
+        if(jsonObject.containsKey("result")){
+            return ResponseEntity.status(400).body(jsonObject);
+        }
+
+        return ResponseEntity.status(200).body(jsonObject);
+
+    }
+
 
     // result가 success가 아니라면 400 Bad Request 전송
     @DeleteMapping("/{id}")

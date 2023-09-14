@@ -15,8 +15,8 @@ public class StoreDTO {
 
     private String address;
 
-    private String coordinateX;
-    private String coordinateY;
+    private Double coordinateX;
+    private Double coordinateY;
 
     private String operatingTime;
 

@@ -4,6 +4,7 @@ import cu.dev.halal.dao.ReportDAO;
 import cu.dev.halal.entity.FavoriteEntity;
 import cu.dev.halal.entity.ReportEntity;
 import cu.dev.halal.repository.ReportRepository;
+import cu.dev.halal.repository.StoreRepository;
 import cu.dev.halal.repository.UserRepository;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -20,13 +21,16 @@ public class ReportDAOImpl implements ReportDAO {
     private final static Logger logger = LoggerFactory.getLogger(ReportDAOImpl.class);
     private final ReportRepository reportRepository;
     private final UserRepository userRepository;
+    private final StoreRepository storeRepository;
 
     public ReportDAOImpl(
+            @Autowired StoreRepository storeRepository,
             @Autowired UserRepository userRepository,
             @Autowired ReportRepository reportRepository
     ){
         this.reportRepository = reportRepository;
         this.userRepository = userRepository;
+        this.storeRepository = storeRepository;
     }
 
 
@@ -43,14 +47,16 @@ public class ReportDAOImpl implements ReportDAO {
             return jsonObject;
         }
         // email이 User테이블에 존재한다면 신고글을 DB에 저장한다.
-        if(this.userRepository.existsByEmail(reportEntity.getUser().getEmail())){
+        if(this.userRepository.existsByEmail(reportEntity.getUser().getEmail()) &&
+                this.storeRepository.existsById(reportEntity.getStore().getId())
+        ){
             reportEntity.setUser(this.userRepository.getByEmail(reportEntity.getUser().getEmail()));
             this.reportRepository.save(reportEntity);
             jsonObject.put("result", "success");
             return jsonObject;
             // 유저 정보가 없다면
         }else{
-            jsonObject.put("result", "email not exists");
+            jsonObject.put("result", "user or store not exists");
             return jsonObject;
         }
     }
@@ -61,6 +67,19 @@ public class ReportDAOImpl implements ReportDAO {
     public List<ReportEntity> readAllReport(String email) {
         if(this.reportRepository.existsByUser(this.userRepository.getByEmail(email))){
             List<ReportEntity> reports = this.userRepository.getByEmail(email).getReports();
+            return reports;
+        }else{
+            List<ReportEntity> error = new ArrayList<>();
+            error.add(null);
+            return error;
+        }
+
+    }
+
+    @Override
+    public List<ReportEntity> readAllReportByStore(Long storeId) {
+        if(this.storeRepository.existsById(storeId)){
+            List<ReportEntity> reports = this.storeRepository.getById(storeId).getReports();
             return reports;
         }else{
             List<ReportEntity> error = new ArrayList<>();

@@ -1,6 +1,7 @@
 package cu.dev.halal.service.impl;
 
 import cu.dev.halal.dao.StoreDAO;
+import cu.dev.halal.dto.RangeDTO;
 import cu.dev.halal.dto.StoreDTO;
 import cu.dev.halal.entity.StoreEntity;
 import cu.dev.halal.service.AddressService;
@@ -11,7 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 
 @Service
@@ -46,8 +49,8 @@ public class StoreServiceImpl implements StoreService {
                 .storePhoneNumber(storeDTO.getStorePhoneNumber())
                 .menu(storeDTO.getMenu())
                 .operatingTime(storeDTO.getOperatingTime())
-                .coordinateX(coordinate.get("x").toString())
-                .coordinateY(coordinate.get("y").toString())
+                .coordinateX(Double.parseDouble( coordinate.get("x").toString()))
+                .coordinateY(Double.parseDouble(coordinate.get("y").toString()))
                 .build();
 
 
@@ -71,6 +74,34 @@ public class StoreServiceImpl implements StoreService {
                 .build();
 
         return storeDTO;
+    }
+
+    @Override
+    public JSONObject readAllRoundStore(RangeDTO rangeDTO) {
+        List<StoreEntity> storeEntities = this.storeDAO.readAllRoundStore(rangeDTO);
+        JSONObject jsonObject = new JSONObject();
+        List<StoreDTO> stores = new ArrayList<>();
+        try {
+            for (StoreEntity storeEntity : storeEntities) {
+                StoreDTO storeDTO = StoreDTO.builder()
+                        .name(storeEntity.getName())
+                        .operatingTime(storeEntity.getOperatingTime())
+                        .storePhoneNumber(storeEntity.getStorePhoneNumber())
+                        .address(storeEntity.getAddress())
+                        .menu(storeEntity.getMenu())
+                        .id(storeEntity.getId())
+                        .coordinateX(storeEntity.getCoordinateX())
+                        .coordinateY(storeEntity.getCoordinateY())
+                        .build();
+                stores.add(storeDTO);
+
+            }
+            jsonObject.put("stores", stores);
+            return jsonObject;
+        }catch (NullPointerException e){
+            jsonObject.put("result", "store not exists");
+            return jsonObject;
+        }
     }
 
     @Override

@@ -1,6 +1,7 @@
 package cu.dev.halal.dao.impl;
 
 import cu.dev.halal.dao.StoreDAO;
+import cu.dev.halal.dto.RangeDTO;
 import cu.dev.halal.entity.StoreEntity;
 import cu.dev.halal.repository.StoreRepository;
 import org.json.simple.JSONObject;
@@ -9,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 
 @Repository
@@ -43,6 +46,16 @@ public class StoreDAOImpl implements StoreDAO {
 
         storeEntity =  this.storeRepository.getById(id);
         return storeEntity;
+    }
+
+    @Override
+    public List<StoreEntity> readAllRoundStore(RangeDTO rangeDTO) {
+        List<StoreEntity> stores= this.storeRepository.getByCoordinateXBetweenAndCoordinateYBetween(
+                rangeDTO.getMinX(), rangeDTO.getMaxX(),
+                rangeDTO.getMinY(), rangeDTO.getMaxY()
+        );
+
+        return stores;
     }
 
     @Override

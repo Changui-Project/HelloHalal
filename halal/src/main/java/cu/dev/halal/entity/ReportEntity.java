@@ -30,6 +30,10 @@ public class ReportEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
+    @ManyToOne
+    @JoinColumn(name = "store_id", nullable = false)
+    private StoreEntity store;
+
     // 신고 본문
     @Column(nullable = false)
     private String content;

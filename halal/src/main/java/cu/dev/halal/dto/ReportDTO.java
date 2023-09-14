@@ -15,4 +15,5 @@ public class ReportDTO {
     private String title;
     private String email;
     private String content;
+    private Long storeId;
 }

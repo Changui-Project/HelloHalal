@@ -30,10 +30,10 @@ public class StoreEntity {
     private String address;
 
     @Column(nullable = false)
-    private String coordinateX;
+    private Double coordinateX;
 
     @Column(nullable = false)
-    private String coordinateY;
+    private Double coordinateY;
 
     @Column(nullable = false)
     private String operatingTime;
@@ -54,6 +54,9 @@ public class StoreEntity {
     @JsonIgnore
     private List<ReviewEntity> reviews = new ArrayList<>();
 
-
+    @Column
+    @OneToMany(mappedBy = "store", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<ReportEntity> reports = new ArrayList<>();
 
 }

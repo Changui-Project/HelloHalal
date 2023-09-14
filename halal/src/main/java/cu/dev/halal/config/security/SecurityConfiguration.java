@@ -44,10 +44,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // 아래에 작성되는 주소들은 모두 허용
                 .authorizeRequests()
                 // 허용할 주소 ex: 로그인, 회원가입
-                .antMatchers("/auth/signin", "/auth/signup", "/favorite", "/**").permitAll()
+                .antMatchers("/auth/signin", "/auth/signup").permitAll()
                 // .antMatchers(HttpMethod.GET, "/salespost", "/promotionalpost").permitAll()
 //                // 권한 체크가 완료된 ADMIN과 USER에게 제공되는 API
-//                .antMatchers("/auth/test").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                //.antMatchers("/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                .antMatchers("/**").authenticated()
                 // 개발용 설정
                 //.anyRequest().hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
                 .anyRequest().hasRole("ADMIN")

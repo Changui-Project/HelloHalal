@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Date;
@@ -64,6 +65,7 @@ public class JwtTokenProvider {
         return token;
     }
 
+    @Transactional
     public Authentication getAuthentication(String token){
         logger.info("[JwtTokenProvider] getAuthentication, 토큰 인증 조회 시작");
         // UserDetailsService를 이용해 유저의 ID로 UserEntity를 가져온다.

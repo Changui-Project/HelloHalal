@@ -52,15 +52,20 @@ public class FavoritesServiceImpl implements FavoritesService {
     public JSONObject getFavorites(String email) {
         JSONObject jsonObject = new JSONObject();
         List<FavoriteEntity> favorites = this.favoritesDAO.getFavorites(email);
-        if(!favorites.isEmpty()){
-            ArrayList<Long> result = new ArrayList<>();
-            for (FavoriteEntity favorite : favorites) {
-                result.add(favorite.getStore().getId());
+        try{
+            if (!favorites.isEmpty()) {
+                ArrayList<Long> result = new ArrayList<>();
+                for (FavoriteEntity favorite : favorites) {
+                    result.add(favorite.getStore().getId());
+                }
+                jsonObject.put("favorites", result);
+                return jsonObject;
+            } else {
+                jsonObject.put("favorites", favorites);
+                return jsonObject;
             }
-            jsonObject.put("favorites", result);
-            return jsonObject;
-        }else{
-            jsonObject.put("favorites", favorites);
+        }catch (NullPointerException e){
+            jsonObject.put("result", "user or store not exists");
             return jsonObject;
         }
     }

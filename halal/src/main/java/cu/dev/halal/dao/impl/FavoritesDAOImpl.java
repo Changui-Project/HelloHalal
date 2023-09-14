@@ -111,7 +111,9 @@ public class FavoritesDAOImpl implements FavoritesDAO {
             return this.userRepository.getByEmail(email).getFavorites();
             // null 값이 저장되어 있을 경우 빈 배열 반환
         }catch (NullPointerException e){
-            return new ArrayList<>();
+            List<FavoriteEntity> error = new ArrayList<>();
+            error.add(null);
+            return error;
         }
 
     }

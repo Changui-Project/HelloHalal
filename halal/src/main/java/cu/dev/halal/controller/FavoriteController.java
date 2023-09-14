@@ -59,6 +59,9 @@ public class FavoriteController {
             @RequestParam String email
     ){
         JSONObject jsonObject = this.favoritesService.getFavorites(email);
+        if(jsonObject.containsKey("result")){
+            return ResponseEntity.status(400).body(jsonObject);
+        }
 
         return ResponseEntity.status(200).body(jsonObject);
     }

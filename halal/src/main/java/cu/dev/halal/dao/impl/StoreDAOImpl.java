@@ -23,6 +23,7 @@ public class StoreDAOImpl implements StoreDAO {
     }
 
 
+    // 같은 Store 중복처리 필요.
     @Override
     public JSONObject createStore(StoreEntity storeEntity) {
         this.storeRepository.save(storeEntity);
@@ -34,6 +35,7 @@ public class StoreDAOImpl implements StoreDAO {
     @Override
     public StoreEntity readStore(Long id) {
         StoreEntity storeEntity = new StoreEntity();
+        // 해당 Store가 존재하지 않는다면
         if(!this.storeRepository.existsById(id)){
             storeEntity.setName("not exists");
             return storeEntity;
@@ -48,6 +50,7 @@ public class StoreDAOImpl implements StoreDAO {
         JSONObject jsonObject = new JSONObject();
         try{
             this.storeRepository.deleteById(id);
+            // 해당 Store가 존재하지 않는다면
         }catch (EmptyResultDataAccessException e){
             jsonObject.put("result", "not exists");
             return jsonObject;

@@ -25,11 +25,13 @@ public class StoreController {
     }
 
 
+    // Store 정보 등록
     @PostMapping
     public ResponseEntity<JSONObject> createStore(
             @RequestBody StoreDTO storeDTO
             ){
         JSONObject jsonObject = this.storeService.createStore(storeDTO);
+        // 정보 등록이 success가 아니라면 400 Bad Request
         if(!jsonObject.containsValue("success")){
             return ResponseEntity.status(400).body(jsonObject);
         }
@@ -43,6 +45,7 @@ public class StoreController {
     ){
         logger.info("read");
         StoreDTO storeDTO = this.storeService.readStore(id);
+        // Store가 존재하지 않는다면 400 Bad Request
         if(storeDTO.getName().equals("not exists")){
             return ResponseEntity.status(400).body(storeDTO);
         }

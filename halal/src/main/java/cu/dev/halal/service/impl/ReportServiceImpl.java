@@ -41,19 +41,24 @@ public class ReportServiceImpl implements ReportService {
     // ReportEntity List를 ReportDTO List로 변환 후 반환
     @Override
     public JSONObject readAllReport(String email) {
+        JSONObject jsonObject = new JSONObject();
         List<ReportEntity> reportList = this.reportDAO.readAllReport(email);
         List<ReportDTO> reports = new ArrayList<>();
-        for(ReportEntity reportEntity : reportList){
-            reports.add(ReportDTO.builder()
-                    .id(reportEntity.getId())
-                    .title(reportEntity.getTitle())
-                    .content(reportEntity.getContent())
-                    .email(reportEntity.getUser().getEmail())
-                    .build());
+        try{
+            for (ReportEntity reportEntity : reportList) {
+                reports.add(ReportDTO.builder()
+                        .id(reportEntity.getId())
+                        .title(reportEntity.getTitle())
+                        .content(reportEntity.getContent())
+                        .email(reportEntity.getUser().getEmail())
+                        .build());
+            }
+            jsonObject.put("reports", reports);
+            return jsonObject;
+        }catch (NullPointerException e){
+            jsonObject.put("result", "user or store not exists");
+            return jsonObject;
         }
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("reports", reports);
-        return jsonObject;
     }
 
 

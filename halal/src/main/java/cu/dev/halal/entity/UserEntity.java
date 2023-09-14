@@ -52,6 +52,11 @@ public class UserEntity implements UserDetails {
     @JsonIgnore
     private List<ReportEntity> reports = new ArrayList<>();
 
+    @Column(nullable = false)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<ReviewEntity> reviews = new ArrayList<>();
+
 
     // 계정이 가지고 있는 권한을 리턴합니다.
     @Override

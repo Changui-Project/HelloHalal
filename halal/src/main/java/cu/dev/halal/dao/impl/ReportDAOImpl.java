@@ -1,6 +1,7 @@
 package cu.dev.halal.dao.impl;
 
 import cu.dev.halal.dao.ReportDAO;
+import cu.dev.halal.entity.FavoriteEntity;
 import cu.dev.halal.entity.ReportEntity;
 import cu.dev.halal.repository.ReportRepository;
 import cu.dev.halal.repository.UserRepository;
@@ -62,7 +63,9 @@ public class ReportDAOImpl implements ReportDAO {
             List<ReportEntity> reports = this.userRepository.getByEmail(email).getReports();
             return reports;
         }else{
-            return new ArrayList<>();
+            List<ReportEntity> error = new ArrayList<>();
+            error.add(null);
+            return error;
         }
 
     }

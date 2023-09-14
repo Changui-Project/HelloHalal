@@ -49,6 +49,11 @@ public class StoreEntity {
     @JsonIgnore
     private List<FavoriteEntity> favorites = new ArrayList<>();
 
+    @Column
+    @OneToMany(mappedBy = "store", cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    private List<ReviewEntity> reviews = new ArrayList<>();
+
 
 
 }

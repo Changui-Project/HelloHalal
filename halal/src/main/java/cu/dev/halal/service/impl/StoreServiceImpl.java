@@ -29,9 +29,12 @@ public class StoreServiceImpl implements StoreService {
     }
 
 
+    // StoreDTO -> StoreEntity
     @Override
     public JSONObject createStore(StoreDTO storeDTO) {
+        // Store address를 좌표로 변환
         LinkedHashMap coordinate = this.addressService.toCoordinate(storeDTO.getAddress());
+        // 변환에 실패했다면 실패 사유를 반환
         if(coordinate.containsKey("result")){
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("result", coordinate.get("result"));
@@ -52,7 +55,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
 
-    // store Entity를 DTO로 변환할 것
+    // storeEntity -> StoreDTO
     @Override
     public StoreDTO readStore(Long id) {
         StoreEntity storeEntity = this.storeDAO.readStore(id);

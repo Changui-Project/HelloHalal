@@ -40,7 +40,10 @@ public class ReportController {
             @RequestParam String email
     ){
         JSONObject jsonObject = this.reportService.readAllReport(email);
-        // Report 배열이 비어있다면 빈 객체 반환
+        if(jsonObject.containsKey("result")){
+            return ResponseEntity.status(400).body(jsonObject);
+        }
+
         return ResponseEntity.status(200).body(jsonObject);
     }
 

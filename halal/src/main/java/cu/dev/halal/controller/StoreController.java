@@ -32,12 +32,13 @@ public class StoreController {
     public ResponseEntity<JSONObject> createStore(
             @RequestBody StoreDTO storeDTO
             ){
+        logger.info("[StoreController] create store : {}", storeDTO.toString());
         JSONObject jsonObject = this.storeService.createStore(storeDTO);
         // 정보 등록이 success가 아니라면 400 Bad Request
         if(!jsonObject.containsValue("success")){
             return ResponseEntity.status(400).body(jsonObject);
         }
-
+        logger.info("[StoreController] create store : {}", jsonObject.toString());
         return ResponseEntity.status(201).body(jsonObject);
     }
 
@@ -45,13 +46,13 @@ public class StoreController {
     public ResponseEntity<StoreDTO> readStore(
             @PathVariable("id") Long id
     ){
-        logger.info("read");
+        logger.info("[StoreController] read store : {}", id);
         StoreDTO storeDTO = this.storeService.readStore(id);
         // Store가 존재하지 않는다면 400 Bad Request
         if(storeDTO.getName().equals("not exists")){
             return ResponseEntity.status(400).body(storeDTO);
         }
-
+        logger.info("[StoreController] read store : {}", storeDTO.toString());
         return ResponseEntity.status(200).body(storeDTO);
     }
 
@@ -59,11 +60,12 @@ public class StoreController {
     public ResponseEntity<JSONObject> readAllAroundStore(
             @RequestBody RangeDTO rangeDTO
             ){
+        logger.info("[StoreController] readAllBy Around store : {}", rangeDTO.toString());
         JSONObject jsonObject = this.storeService.readAllRoundStore(rangeDTO);
         if(jsonObject.containsKey("result")){
             return ResponseEntity.status(400).body(jsonObject);
         }
-
+        logger.info("[StoreController] readAllBy Around store : {}", jsonObject.toString());
         return ResponseEntity.status(200).body(jsonObject);
     }
 
@@ -71,11 +73,12 @@ public class StoreController {
     public ResponseEntity<JSONObject> deleteStore(
             @PathVariable("id") Long id
     ){
+        logger.info("[StoreController] delete store : {}", id);
         JSONObject jsonObject = this.storeService.deleteStore(id);
         if(!jsonObject.containsValue("success")){
             return ResponseEntity.status(400).body(jsonObject);
         }
-
+        logger.info("[StoreController] delete store : {}", jsonObject.toString());
         return ResponseEntity.status(200).body(jsonObject);
 
     }

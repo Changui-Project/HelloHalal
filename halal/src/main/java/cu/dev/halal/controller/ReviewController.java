@@ -29,6 +29,7 @@ public class ReviewController {
     public ResponseEntity<JSONObject> createReview(
             @RequestBody ReviewDTO reviewDTO
             ){
+        logger.info("[ReviewController] create review : {}", reviewDTO.toString() );
         JSONObject jsonObject = this.reviewService.createReview(reviewDTO);
 
         if(!jsonObject.containsValue("success")){
@@ -43,10 +44,12 @@ public class ReviewController {
     public ResponseEntity<JSONObject> readReviewByUser(
             @RequestParam String email
     ){
+        logger.info("[ReviewController] readByUser review : {}", email);
         JSONObject jsonObject = this.reviewService.readReviewByUser(email);
         if(jsonObject.containsKey("result")){
             return ResponseEntity.status(400).body(jsonObject);
         }
+        logger.info("[ReviewController] readByUser review : {}", jsonObject.toString());
         return ResponseEntity.status(200).body(jsonObject);
 
     }
@@ -55,11 +58,12 @@ public class ReviewController {
     public ResponseEntity<JSONObject> readReviewByStore(
         @PathVariable("storeId") Long storeId
     ){
+        logger.info("[ReviewController] readByStore review : {}", storeId);
         JSONObject jsonObject = this.reviewService.readReviewByStore(storeId);
         if(jsonObject.containsKey("result")){
             return ResponseEntity.status(400).body(jsonObject);
         }
-
+        logger.info("[ReviewController] readByStore review : {}", jsonObject.toString());
         return ResponseEntity.status(200).body(jsonObject);
     }
 
@@ -67,6 +71,7 @@ public class ReviewController {
     public ResponseEntity<JSONObject> deleteReview(
             @PathVariable("reviewId") Long reviewId
     ){
+        logger.info("[ReviewController] delete review : {}", reviewId);
         JSONObject jsonObject = this.reviewService.deleteReview(reviewId);
         if(!jsonObject.containsValue("success")){
             return ResponseEntity.status(400).body(jsonObject);

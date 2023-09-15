@@ -29,6 +29,7 @@ public class FavoriteController {
     public ResponseEntity<JSONObject> addFavorite(
             @RequestBody FavoriteDTO favoriteDTO
             ){
+        logger.info("[FavoriteController] favorite Add : {}", favoriteDTO);
         JSONObject jsonObject = this.favoritesService.addFavorite(favoriteDTO);
         // result가 success가 아니라면 Bad Request 및 실패 사유를 응답
         if(!jsonObject.get("result").equals("success")){
@@ -44,6 +45,7 @@ public class FavoriteController {
     public ResponseEntity<JSONObject> deleteFavorite(
             @RequestBody FavoriteDTO favoriteDTO
     ){
+        logger.info("[FavoriteController] favorite delete : {}", favoriteDTO);
         JSONObject jsonObject = this.favoritesService.deleteFavorite(favoriteDTO);
         // result가 success가 아니라면 Bad Request 및 실패 사유 응답
         if(!jsonObject.get("result").equals("success")){
@@ -58,11 +60,12 @@ public class FavoriteController {
     public ResponseEntity<JSONObject> getFavorites(
             @RequestParam String email
     ){
+        logger.info("[FavoriteController] favorite get : {}", email);
         JSONObject jsonObject = this.favoritesService.getFavorites(email);
         if(jsonObject.containsKey("result")){
             return ResponseEntity.status(400).body(jsonObject);
         }
-
+        logger.info("[FavoriteController] favorite get : {}", jsonObject.toString());
         return ResponseEntity.status(200).body(jsonObject);
     }
 

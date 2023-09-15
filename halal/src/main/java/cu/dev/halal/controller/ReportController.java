@@ -26,6 +26,7 @@ public class ReportController {
     public ResponseEntity<JSONObject> createReport(
             @RequestBody ReportDTO reportDTO
             ){
+        logger.info("[ReportController] create Report : {}", reportDTO);
         JSONObject jsonObject = this.reportService.createReport(reportDTO);
         if(!jsonObject.get("result").equals("success")){
             return ResponseEntity.status(400).body(jsonObject);
@@ -39,11 +40,12 @@ public class ReportController {
     public ResponseEntity<JSONObject> readAllReport(
             @RequestParam String email
     ){
+        logger.info("[ReportController] readAll Report : {}", email);
         JSONObject jsonObject = this.reportService.readAllReport(email);
         if(jsonObject.containsKey("result")){
             return ResponseEntity.status(400).body(jsonObject);
         }
-
+        logger.info("[ReportController] readAll Report : {}", jsonObject.toString());
         return ResponseEntity.status(200).body(jsonObject);
     }
 
@@ -51,11 +53,12 @@ public class ReportController {
     public ResponseEntity<JSONObject> readAllReportByStore(
             @PathVariable("storeId") Long storeId
     ){
+        logger.info("[ReportController] readAll Report Store : {}", storeId);
         JSONObject jsonObject = this.reportService.readAllReportByStore(storeId);
         if(jsonObject.containsKey("result")){
             return ResponseEntity.status(400).body(jsonObject);
         }
-
+        logger.info("[ReportController] readAll Report Store : {}", jsonObject.toString());
         return ResponseEntity.status(200).body(jsonObject);
 
     }
@@ -66,6 +69,7 @@ public class ReportController {
     public ResponseEntity<JSONObject> deleteReport(
             @PathVariable("id") Long id
     ){
+        logger.info("[ReportController] delete Report : {}", id);
         JSONObject jsonObject = this.reportService.deleteReport(id);
         if(!jsonObject.get("result").equals("success")){
             return ResponseEntity.status(400).body(jsonObject);

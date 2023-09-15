@@ -32,6 +32,7 @@ public class AuthController {
     public ResponseEntity<JSONObject> signup(
             @RequestBody LoginDTO loginDTO
             ){
+        logger.info("[AuthController] 회원가입 요청 {}", loginDTO.toString());
         return this.signService.signUp(loginDTO, "USER");
     }
 
@@ -39,6 +40,7 @@ public class AuthController {
     public ResponseEntity<JSONObject> signin(
             @RequestBody LoginDTO loginDTO
     ){
+        logger.info("[AuthController] 로그인 요청 {}", loginDTO.toString());
         return this.signService.signIn(loginDTO);
     }
 

@@ -3,8 +3,11 @@ package cu.dev.halal.entity;
 
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @ToString
 @Builder
@@ -27,6 +30,11 @@ public class ReviewEntity {
 
     @Column(nullable = false)
     private Float score;
+
+    @Column(nullable = false)
+    @ElementCollection
+    @Builder.Default
+    private List<String> images = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

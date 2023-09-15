@@ -51,7 +51,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // 아래에 작성되는 주소들은 모두 허용
                 .authorizeRequests()
                 // 허용할 주소 ex: 로그인, 회원가입
-                .antMatchers("/auth/signin", "/auth/signup").permitAll()
+                .antMatchers("/auth/signin", "/auth/signup", "/image/**").permitAll()
                 // .antMatchers(HttpMethod.GET, "/salespost", "/promotionalpost").permitAll()
 //                // 권한 체크가 완료된 ADMIN과 USER에게 제공되는 API
                 //.antMatchers("/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")

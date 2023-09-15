@@ -5,13 +5,16 @@ import cu.dev.halal.dto.RangeDTO;
 import cu.dev.halal.dto.StoreDTO;
 import cu.dev.halal.entity.StoreEntity;
 import cu.dev.halal.service.AddressService;
+import cu.dev.halal.service.ImageService;
 import cu.dev.halal.service.StoreService;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -22,11 +25,14 @@ public class StoreServiceImpl implements StoreService {
     private final static Logger logger = LoggerFactory.getLogger(StoreServiceImpl.class);
     private final StoreDAO storeDAO;
     private final AddressService addressService;
+    private final ImageService imageService;
 
     public StoreServiceImpl(
+            @Autowired ImageService imageService,
             @Autowired AddressService addressService,
             @Autowired StoreDAO storeDAO
     ){
+        this.imageService = imageService;
         this.addressService = addressService;
         this.storeDAO = storeDAO;
     }
@@ -34,7 +40,11 @@ public class StoreServiceImpl implements StoreService {
 
     // StoreDTO -> StoreEntity
     @Override
-    public JSONObject createStore(StoreDTO storeDTO) {
+    public JSONObject createStore(StoreDTO storeDTO, List<MultipartFile> multipartFiles) throws IOException {
+        List<String> images = new ArrayList<>();
+        for(MultipartFile multipartFile : multipartFiles){
+            images.add(this.imageService.upload(multipartFile));
+        }
         // Store address를 좌표로 변환
         LinkedHashMap coordinate = this.addressService.toCoordinate(storeDTO.getAddress());
         // 변환에 실패했다면 실패 사유를 반환
@@ -51,6 +61,7 @@ public class StoreServiceImpl implements StoreService {
                 .operatingTime(storeDTO.getOperatingTime())
                 .coordinateX(Double.parseDouble( coordinate.get("x").toString()))
                 .coordinateY(Double.parseDouble(coordinate.get("y").toString()))
+                .images(images)
                 .build();
 
 
@@ -71,6 +82,7 @@ public class StoreServiceImpl implements StoreService {
                 .storePhoneNumber(storeEntity.getStorePhoneNumber())
                 .menu(storeEntity.getMenu())
                 .id(storeEntity.getId())
+                .images(storeEntity.getImages())
                 .build();
 
         return storeDTO;
@@ -92,6 +104,7 @@ public class StoreServiceImpl implements StoreService {
                         .id(storeEntity.getId())
                         .coordinateX(storeEntity.getCoordinateX())
                         .coordinateY(storeEntity.getCoordinateY())
+                        .images(storeEntity.getImages())
                         .build();
                 stores.add(storeDTO);
 

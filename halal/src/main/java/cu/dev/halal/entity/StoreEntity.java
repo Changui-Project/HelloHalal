@@ -44,6 +44,11 @@ public class StoreEntity {
     @Column(nullable = false)
     private String menu;
 
+    @Column(nullable = false)
+    @ElementCollection
+    @Builder.Default
+    private List<String> images = new ArrayList<>();
+
     @Column
     @OneToMany(mappedBy = "store",cascade = CascadeType.REMOVE)
     @JsonIgnore

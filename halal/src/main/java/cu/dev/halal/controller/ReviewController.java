@@ -10,6 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/review")
@@ -27,10 +31,11 @@ public class ReviewController {
 
     @PostMapping()
     public ResponseEntity<JSONObject> createReview(
-            @RequestBody ReviewDTO reviewDTO
-            ){
+            @RequestPart("body") ReviewDTO reviewDTO,
+            @RequestPart("images")List<MultipartFile> images
+            ) throws IOException {
         logger.info("[ReviewController] create review : {}", reviewDTO.toString() );
-        JSONObject jsonObject = this.reviewService.createReview(reviewDTO);
+        JSONObject jsonObject = this.reviewService.createReview(reviewDTO, images);
 
         if(!jsonObject.containsValue("success")){
             return ResponseEntity.status(400).body(jsonObject);

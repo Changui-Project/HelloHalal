@@ -11,6 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
 
 
 @RestController
@@ -30,10 +34,11 @@ public class StoreController {
     // Store 정보 등록
     @PostMapping
     public ResponseEntity<JSONObject> createStore(
-            @RequestBody StoreDTO storeDTO
-            ){
+            @RequestPart("body") StoreDTO storeDTO,
+            @RequestPart("images") List<MultipartFile> images
+            ) throws IOException {
         logger.info("[StoreController] create store : {}", storeDTO.toString());
-        JSONObject jsonObject = this.storeService.createStore(storeDTO);
+        JSONObject jsonObject = this.storeService.createStore(storeDTO, images);
         // 정보 등록이 success가 아니라면 400 Bad Request
         if(!jsonObject.containsValue("success")){
             return ResponseEntity.status(400).body(jsonObject);

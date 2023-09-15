@@ -3,6 +3,8 @@ package cu.dev.halal.dto;
 
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -23,4 +25,5 @@ public class StoreDTO {
     private String storePhoneNumber;
 
     private String menu;
+    private List<String> images;
 }

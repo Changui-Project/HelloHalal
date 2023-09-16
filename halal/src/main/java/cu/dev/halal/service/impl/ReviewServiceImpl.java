@@ -86,7 +86,11 @@ public class ReviewServiceImpl implements ReviewService {
         JSONObject jsonObject = new JSONObject();
         List<ReviewEntity> reviewEntities = this.reviewDAO.readReviewByStore(storeId);
         List<ReviewDTO> reviews = new ArrayList<>();
-        List<Long> scoreList = List.of(0L,0L,0L,0L,0L);
+        List<Integer> scoreList = new ArrayList<>();
+        for(int i=0; i<5; i++){
+            scoreList.add(0);
+        }
+
         Float scoreAvg = 0F;
 
         try{
@@ -101,7 +105,7 @@ public class ReviewServiceImpl implements ReviewService {
                             .images(reviewEntity.getImages())
                             .build();
                     reviews.add(reviewDTO);
-                    scoreList.add(scoreList.get(reviewEntity.getScore().intValue()-1)+1);
+                    scoreList.set(reviewEntity.getScore().intValue()-1, scoreList.get(reviewEntity.getScore().intValue()-1)+1);
                     scoreAvg += reviewEntity.getScore();
                 }
                 scoreAvg /= reviewEntities.size();

@@ -1,6 +1,7 @@
 package cu.dev.halal.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -12,6 +13,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 
@@ -43,7 +45,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.httpBasic().disable()
                 // REST API에서는 CSRF 보안이 필요 없다.
                 .csrf().disable()
-                .cors().and()
                 // session 기능 제거
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -72,21 +73,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
     }
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-
-        CorsConfiguration config = new CorsConfiguration();
-        // 모든 origin 허용
-        config.setAllowedOrigins(Arrays.asList("/**"));
-        // 모든 HTTP 메소드 허용
-        config.setAllowedMethods(Arrays.asList("*"));
-        // 모든 요청 헤더 허용
-        config.setAllowedHeaders(Arrays.asList("*"));
-        source.registerCorsConfiguration("/**", config);
-
-
-        return source;
-    }
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.addAllowedOrigin("http://127.0.0.1:5500");
+//        configuration.addAllowedMethod("*");
+//        configuration.addAllowedHeader("*");
+//        configuration.setAllowCredentials(true);
+//        configuration.setMaxAge(3600L);
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//        return source;
+//    }
 
 }

@@ -25,13 +25,14 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public String upload(byte[] multipartFile) throws IOException {
-
+        // 이미지 업로드
         ImageEntity imageEntity = this.imageDAO.upload(ImageEntity.builder().image(multipartFile).build());
         return "/image/"+imageEntity.getId();
     }
 
     @Override
     public byte[] download(Long id) {
+        // 이미지 다운로드
         ImageEntity imageEntity = this.imageDAO.download(id);
         try{
             if(imageEntity.getImage() != null) {

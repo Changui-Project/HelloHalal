@@ -3,6 +3,8 @@ package cu.dev.halal.dto;
 
 import lombok.*;
 
+
+// 범위내 Store를 가져오기 위해 좌표 값들을 가져오는 DTO
 @ToString
 @Getter
 @Setter

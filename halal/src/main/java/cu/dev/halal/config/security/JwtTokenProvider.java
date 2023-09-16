@@ -32,7 +32,7 @@ public class JwtTokenProvider {
     // application.yml에 있는 설정 값을 가져온다. 가져올 수 없다면 기본값 "secretKey"사용
     // @Value(value = "${springboot.jwt.secret}")
     private String secretKey = "secretKey";
-    // 토큰의 유효 기간
+    // 토큰의 유효 기간 (1시간)
     private final long tokenValidMillisecond = 1000L * 60 * 60;
 
     // secretKey를 Base64 인코딩 합니다.

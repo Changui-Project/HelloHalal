@@ -31,7 +31,7 @@ public class StoreController {
         this.storeService = storeService;
     }
 
-
+    // 사용하지 않는 API Store생성은 오픈 api를 이용하여 받아온다.
     // Store 정보 등록
     @PostMapping
     public ResponseEntity<JSONObject> createStore(

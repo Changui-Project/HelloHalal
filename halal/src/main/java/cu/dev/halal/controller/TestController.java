@@ -14,6 +14,8 @@
 //import java.net.URISyntaxException;
 //import java.util.Map;
 //
+
+// //개발용 테스트 엔드포인트
 //@RestController
 //@RequestMapping("/test")
 //public class TestController {

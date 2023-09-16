@@ -28,16 +28,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    // WebSecurity는 HttpSecurity 앞단에 적용되며 스프링 시큐리티의 영향권 밖에 있다.
-    // 인증과 인가를 모두 피하기 위한 용도로 사용
-//    @Override
-//    public void configure(WebSecurity web) throws Exception {
-//        super.configure(web);
-//        web.ignoring()
-//                .antMatchers("/test/**")
-//                .antMatchers(("/**"));
-//    }
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -52,7 +42,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // 아래에 작성되는 주소들은 모두 허용
                 .authorizeRequests()
                 // 허용할 주소 ex: 로그인, 회원가입
-                .antMatchers("/auth/signin", "/auth/signup", "/image/**", "/openapi/data/**").permitAll()
+                .antMatchers("/auth/**", "/image/**", "/openapi/data/**").permitAll()
                 // 인증이 완료되면 모든 api 접근 허용
                 .antMatchers("/**").authenticated()
                 // 개발용 설정
@@ -69,10 +59,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
                         UsernamePasswordAuthenticationFilter.class);
 
-
-
-
     }
+    // CORS 허용
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();

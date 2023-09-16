@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.Collections;
 
 
@@ -35,6 +33,11 @@ public class SignServiceImpl implements SignService {
 
     public boolean emailDuplicateCheck(String email){
         return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public boolean tokenValidCheck(String token) {
+        return this.jwtTokenProvider.validateToken(token);
     }
 
     @Override

@@ -29,6 +29,7 @@ public class ReviewController {
     }
 
 
+    // 사진을 저장하기 위해 Form-data
     @PostMapping()
     public ResponseEntity<JSONObject> createReview(
             @RequestPart("body") ReviewDTO reviewDTO,

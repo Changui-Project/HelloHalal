@@ -12,4 +12,5 @@ public interface SignService {
     ResponseEntity<JSONObject>  signUp(LoginDTO loginDTO, String role);
     ResponseEntity<JSONObject> signIn(LoginDTO loginDTO);
     public boolean emailDuplicateCheck(String email);
+    public boolean tokenValidCheck(String token);
 }

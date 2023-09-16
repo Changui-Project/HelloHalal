@@ -26,6 +26,8 @@ public class AuthController {
 
 
 
+
+    // 회원가입
     @PostMapping("/signup")
     public ResponseEntity<JSONObject> signup(
             @RequestBody LoginDTO loginDTO
@@ -34,6 +36,7 @@ public class AuthController {
         return this.signService.signUp(loginDTO, "USER");
     }
 
+    // 로그인
     @PostMapping("/signin")
     public ResponseEntity<JSONObject> signin(
             @RequestBody LoginDTO loginDTO
@@ -42,5 +45,17 @@ public class AuthController {
         return this.signService.signIn(loginDTO);
     }
 
+    // 토큰의 유효성 검사 (현재 토큰이 유효한가)
+    @PostMapping("/valid")
+    public ResponseEntity<?> tokenValidCheck(
+            @RequestParam("token") String token
+    ){
+        boolean result = this.signService.tokenValidCheck(token);
+        if(result){
+            return ResponseEntity.status(200).body(result);
+        }else{
+            return ResponseEntity.status(400).body(result);
+        }
+    }
 
 }

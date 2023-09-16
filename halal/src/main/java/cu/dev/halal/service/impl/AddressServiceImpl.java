@@ -1,6 +1,6 @@
 package cu.dev.halal.service.impl;
 
-import com.google.gson.JsonObject;
+
 import cu.dev.halal.service.AddressService;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -9,15 +9,12 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 
+// 좌표 address 관련 서비스
 @Service
 public class AddressServiceImpl implements AddressService {
 
@@ -58,6 +55,8 @@ public class AddressServiceImpl implements AddressService {
 
     }
 
+    // 좌표 -> 주소
+    // 네이버 API
     @Override
     public String toAddress(Double x, Double y) {
         String url = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc";
@@ -90,32 +89,14 @@ public class AddressServiceImpl implements AddressService {
             address = address + " " + land.get("number1");
             logger.info(address);
             return address;
+            // 좌표 -> 도로명 주소 변환에 실패하였을 때 처리
         }catch(IndexOutOfBoundsException e){
             return "주소를 등록하여 주십시오.";
         }
-
-
-
-
-//        if(response.getStatusCode() == HttpStatus.OK){
-//            JSONObject jsonObject = (JSONObject) response.getBody();
-//            ArrayList addresses = (ArrayList) jsonObject.get("addresses");
-//            try{
-//                LinkedHashMap coordinate = (LinkedHashMap) addresses.get(0);
-//                return "";
-//            }catch (IndexOutOfBoundsException e){
-//                returnValue.put("result", "invalid address");
-//                return "";
-//            }
-//        }
-//        else {
-//
-//            returnValue.put("result", "naver api error");
-//            return "";
-//        }
-
     }
 
+    // 지리좌표간의 거리를 계산 Wiki피디아 참고
+    // 결과값으로 두 지리좌표간 거리를 KM 단위로 반환
     @Override
     public Double dis(Double x1, Double y1, Double x2, Double y2){
         Double x1d = Math.floor(x1);

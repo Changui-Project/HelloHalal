@@ -1,18 +1,18 @@
 # Jwt 토큰에 들어가는 secret 값
 spring:
-  jwt:
-    secret: asd
 
 
 # jpa
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
 
-  # database 연결관련
+  # database 연결관련, 개발환경 (mysql)
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://svc.sel5.cloudtype.app:31347/halal?createDatabaseIfNotExist=true
+    url: jdbc:mysql://svc.sel5.cloudtype.app:31347/halal?createDatabaseIfNotExist=true
     username: root
     password: ?Qweasd7410
+
+  # 배포환경은 (maria DB)

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 
+// 즐겨찾기 기능
 @RestController
 @RequestMapping("/favorite")
 public class FavoriteController {

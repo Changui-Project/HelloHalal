@@ -22,6 +22,7 @@ public class ImageController {
         this.imageService = imageService;
     }
 
+    // DB에 저장된 사진을 가져온다.
     @GetMapping(value = "/{id}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
     public ResponseEntity<?> download(@PathVariable("id") Long id){
         try{

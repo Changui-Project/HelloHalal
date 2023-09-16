@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface StoreRepository extends JpaRepository<StoreEntity, Long> {
 
-
+    public boolean existsByNameAndAddress(String name, String address);
     public List<StoreEntity> getByCoordinateXBetweenAndCoordinateYBetween(Double minX, Double maxX, Double minY,  Double maxY);
 
 }

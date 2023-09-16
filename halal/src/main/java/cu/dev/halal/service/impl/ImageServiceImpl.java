@@ -24,9 +24,9 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public String upload(MultipartFile multipartFile) throws IOException {
+    public String upload(byte[] multipartFile) throws IOException {
 
-        ImageEntity imageEntity = this.imageDAO.upload(ImageEntity.builder().image(multipartFile.getBytes()).build());
+        ImageEntity imageEntity = this.imageDAO.upload(ImageEntity.builder().image(multipartFile).build());
         return "/image/"+imageEntity.getId();
     }
 

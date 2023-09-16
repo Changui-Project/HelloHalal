@@ -1,5 +1,6 @@
 package cu.dev.halal.service.impl;
 
+import com.google.gson.JsonObject;
 import cu.dev.halal.service.AddressService;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -56,6 +58,63 @@ public class AddressServiceImpl implements AddressService {
 
     }
 
+    @Override
+    public String toAddress(Double x, Double y) {
+        String url = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc";
+        url = url + "?coords="+x+","+y+"&orders=roadaddr&output=json";
+        LinkedHashMap returnValue = new LinkedHashMap<>();
+        RestTemplate restTemplate = new RestTemplate();
+        logger.info("url : "+url);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("X-NCP-APIGW-API-KEY-ID", "rnl7q9733x");
+        httpHeaders.add("X-NCP-APIGW-API-KEY", "iiK2zg20DDqp6yoVsdnryVn7DG4SkYz7ehaxL1aO");
+
+        HttpEntity<JSONObject> httpEntity = new HttpEntity<>(httpHeaders);
+
+        ResponseEntity response = restTemplate.exchange(url, HttpMethod.GET, httpEntity, JSONObject.class);
+
+        try{
+            String address = "";
+            logger.info(response.getBody().toString());
+            JSONObject jsonObject = (JSONObject) response.getBody();
+            List results = (List) jsonObject.get("results");
+            returnValue = (LinkedHashMap) results.get(0);
+            LinkedHashMap region = (LinkedHashMap) returnValue.get("region");
+            LinkedHashMap land = (LinkedHashMap) returnValue.get("land");
+
+            returnValue = (LinkedHashMap) region.get("area1");
+            address += returnValue.get("name");
+            returnValue = (LinkedHashMap) region.get("area2");
+            address = address + " " + returnValue.get("name");
+            address = address + " " + land.get("name");
+            address = address + " " + land.get("number1");
+            logger.info(address);
+            return address;
+        }catch(IndexOutOfBoundsException e){
+            return "주소를 등록하여 주십시오.";
+        }
+
+
+
+
+//        if(response.getStatusCode() == HttpStatus.OK){
+//            JSONObject jsonObject = (JSONObject) response.getBody();
+//            ArrayList addresses = (ArrayList) jsonObject.get("addresses");
+//            try{
+//                LinkedHashMap coordinate = (LinkedHashMap) addresses.get(0);
+//                return "";
+//            }catch (IndexOutOfBoundsException e){
+//                returnValue.put("result", "invalid address");
+//                return "";
+//            }
+//        }
+//        else {
+//
+//            returnValue.put("result", "naver api error");
+//            return "";
+//        }
+
+    }
 
     @Override
     public Double dis(Double x1, Double y1, Double x2, Double y2){

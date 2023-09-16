@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface StoreService {
 
-    public JSONObject createStore(StoreDTO storeDTO, List<MultipartFile> multipartFiles) throws IOException;
+    public JSONObject createStore(StoreDTO storeDTO, List<byte[]> multipartFiles) throws IOException;
     public StoreDTO readStore(Long id);
     public JSONObject readAllRoundStore(RangeDTO rangeDTO);
     public JSONObject readAllCoordinateAroundStore(Double x, Double y);

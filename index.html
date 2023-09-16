@@ -1,47 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API 요청 예제</title>
+    <title>API 호출 예제</title>
 </head>
 <body>
-    <h1>API 요청 예제</h1>
-    <button onclick="postData()">API 데이터 전송하기 (POST)</button>
-    <div id="apiData"></div>
-
+    <button id="fetchButton">API 요청 보내기</button>
     <script>
-        // POST 요청을 보내는 함수
-        function postData() {
-            // API 엔드포인트 URL
-            const apiUrl = 'http://localhost:8080/auth/signup'; // 예제 API URL
+        document.getElementById("fetchButton").addEventListener("click", function() {
+            const apiUrl = "https://apis.data.go.kr/B551011/ForFriTourService/locationBasedList";
+            const serviceKey = "INPDOyrXXImnGdmHVQ0dbbSxVooQk7kDVX7dYfzS%2BNLdsx%2BRwnE5Z7zHLdCIIB2B7i4CrOVGm2j3z4F2%2FIT1bg%3D%3D";
+            const numOfRows = 1000;
+            const pageNo = 1;
+            const MobileOS = "ETC";
+            const MobileApp = "APP";
+            const arrange = "C";
+            const mapX = 128.4988125;
+            const mapY = 35.8589654;
+            const radius = 20000;
+            const dataType = "json";
 
-            // POST 요청 바디 데이터 (이 예제에서는 빈 객체)
-            const postData = {};
+            const apiUrlWithParams = `${apiUrl}?serviceKey=${serviceKey}&numOfRows=${numOfRows}&pageNo=${pageNo}&MobileOS=${MobileOS}&MobileApp=${MobileApp}&arrange=${arrange}&mapX=${mapX}&mapY=${mapY}&radius=${radius}&_type=${dataType}`;
 
-            // API 요청 보내기
-            fetch(apiUrl, {
-                method: 'POST', // POST 메서드 사용
-                headers: {
-                    'Content-Type': 'application/json' // JSON 데이터 전송을 명시
-                },
-                body: JSON.stringify(postData) // JSON 데이터로 변환하여 전송
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('API 요청 실패');
-                }
-                return response.json(); // JSON 데이터로 변환
-            })
-            .then(data => {
-                // API 응답 데이터를 처리하거나 표시
-                const apiDataElement = document.getElementById('apiData');
-                apiDataElement.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-            })
-            .catch(error => {
-                console.error('API 요청 에러:', error);
-            });
-        }
+            fetch(apiUrlWithParams)
+                .then(response => response.json())
+                .then(data => {
+                    // API 응답 데이터를 처리하여 화면에 표시하거나 다른 작업을 수행할 수 있습니다.
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error("API 호출 중 오류 발생:", error);
+                });
+        });
     </script>
 </body>
 </html>

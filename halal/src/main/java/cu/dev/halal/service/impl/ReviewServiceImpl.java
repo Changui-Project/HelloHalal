@@ -37,7 +37,7 @@ public class ReviewServiceImpl implements ReviewService {
     public JSONObject createReview(ReviewDTO reviewDTO, List<MultipartFile> multipartFiles) throws IOException {
         List<String> images = new ArrayList<>();
         for(MultipartFile multipartFile : multipartFiles){
-            images.add(this.imageService.upload(multipartFile));
+            images.add(this.imageService.upload(multipartFile.getBytes()));
         }
 
         ReviewEntity reviewEntity = ReviewEntity.builder()

@@ -41,27 +41,29 @@ public class StoreServiceImpl implements StoreService {
 
     // StoreDTO -> StoreEntity
     @Override
-    public JSONObject createStore(StoreDTO storeDTO, List<MultipartFile> multipartFiles) throws IOException {
+    public JSONObject createStore(StoreDTO storeDTO, List<byte[]> multipartFiles) throws IOException {
         List<String> images = new ArrayList<>();
-        for(MultipartFile multipartFile : multipartFiles){
+        for(byte[] multipartFile : multipartFiles){
             images.add(this.imageService.upload(multipartFile));
         }
         // Store address를 좌표로 변환
-        LinkedHashMap coordinate = this.addressService.toCoordinate(storeDTO.getAddress());
-        // 변환에 실패했다면 실패 사유를 반환
-        if(coordinate.containsKey("result")){
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("result", coordinate.get("result"));
-            return jsonObject;
-        }
+//        LinkedHashMap coordinate = this.addressService.toCoordinate(storeDTO.getAddress());
+//        // 변환에 실패했다면 실패 사유를 반환
+//        if(coordinate.containsKey("result")){
+//            JSONObject jsonObject = new JSONObject();
+//            jsonObject.put("result", coordinate.get("result"));
+//            return jsonObject;
+//        }
         StoreEntity storeEntity = StoreEntity.builder()
                 .name(storeDTO.getName())
-                .address(storeDTO.getAddress())
+                .address(this.addressService.toAddress(
+                        storeDTO.getCoordinateX(),
+                        storeDTO.getCoordinateY()))
                 .storePhoneNumber(storeDTO.getStorePhoneNumber())
                 .menu(storeDTO.getMenu())
                 .operatingTime(storeDTO.getOperatingTime())
-                .coordinateX(Double.parseDouble( coordinate.get("x").toString()))
-                .coordinateY(Double.parseDouble(coordinate.get("y").toString()))
+                .coordinateX(storeDTO.getCoordinateX())
+                .coordinateY(storeDTO.getCoordinateY())
                 .images(images)
                 .build();
 

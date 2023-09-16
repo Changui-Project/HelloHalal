@@ -29,10 +29,15 @@ public class StoreDAOImpl implements StoreDAO {
     // 같은 Store 중복처리 필요.
     @Override
     public JSONObject createStore(StoreEntity storeEntity) {
-        this.storeRepository.save(storeEntity);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("result", "success");
-        return jsonObject;
+        if(!this.storeRepository.existsByNameAndAddress(storeEntity.getName(), storeEntity.getAddress())){
+            this.storeRepository.save(storeEntity);
+            jsonObject.put("result", "success");
+            return jsonObject;
+        }else{
+            jsonObject.put("result", "exists");
+            return jsonObject;
+        }
     }
 
     @Override

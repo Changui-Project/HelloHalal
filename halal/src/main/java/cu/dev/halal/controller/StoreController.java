@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -39,7 +40,13 @@ public class StoreController {
             @RequestPart("images") List<MultipartFile> images
             ) throws IOException {
         logger.info("[StoreController] create store : {}", storeDTO.toString());
-        JSONObject jsonObject = this.storeService.createStore(storeDTO, images);
+        List<byte[]> imageList = new ArrayList<>();
+        for(MultipartFile multipartFile : images){
+            imageList.add(multipartFile.getBytes());
+        }
+
+
+        JSONObject jsonObject = this.storeService.createStore(storeDTO, imageList);
         // 정보 등록이 success가 아니라면 400 Bad Request
         if(!jsonObject.containsValue("success")){
             return ResponseEntity.status(400).body(jsonObject);

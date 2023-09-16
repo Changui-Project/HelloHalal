@@ -101,7 +101,7 @@ public class ReviewServiceImpl implements ReviewService {
                             .images(reviewEntity.getImages())
                             .build();
                     reviews.add(reviewDTO);
-                    scoreList.add(scoreList.get(reviewEntity.getScore().intValue())+1);
+                    scoreList.add(scoreList.get(reviewEntity.getScore().intValue()-1)+1);
                     scoreAvg += reviewEntity.getScore();
                 }
                 scoreAvg /= reviewEntities.size();

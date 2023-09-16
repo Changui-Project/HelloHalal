@@ -14,7 +14,9 @@ public interface StoreService {
     public JSONObject createStore(StoreDTO storeDTO, List<MultipartFile> multipartFiles) throws IOException;
     public StoreDTO readStore(Long id);
     public JSONObject readAllRoundStore(RangeDTO rangeDTO);
+    public JSONObject readAllCoordinateAroundStore(Double x, Double y);
     public JSONObject deleteStore(Long id);
+
 
 
 }

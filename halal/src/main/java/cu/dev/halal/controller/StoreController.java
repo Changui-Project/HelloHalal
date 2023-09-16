@@ -1,6 +1,7 @@
 package cu.dev.halal.controller;
 
 
+import com.google.gson.JsonObject;
 import cu.dev.halal.dto.RangeDTO;
 import cu.dev.halal.dto.StoreDTO;
 import cu.dev.halal.entity.StoreEntity;
@@ -71,6 +72,15 @@ public class StoreController {
             return ResponseEntity.status(400).body(jsonObject);
         }
         logger.info("[StoreController] readAllBy Around store : {}", jsonObject.toString());
+        return ResponseEntity.status(200).body(jsonObject);
+    }
+
+    @GetMapping("/coordinate")
+    public ResponseEntity<JSONObject> readAllByCoordinateAroundStore(
+            @RequestParam("x") Double x,
+            @RequestParam("y") Double y
+    ){
+        JSONObject jsonObject = this.storeService.readAllCoordinateAroundStore(x, y);
         return ResponseEntity.status(200).body(jsonObject);
     }
 

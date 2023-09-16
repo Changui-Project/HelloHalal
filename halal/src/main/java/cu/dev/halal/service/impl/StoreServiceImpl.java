@@ -1,5 +1,6 @@
 package cu.dev.halal.service.impl;
 
+import com.google.gson.JsonObject;
 import cu.dev.halal.dao.StoreDAO;
 import cu.dev.halal.dto.RangeDTO;
 import cu.dev.halal.dto.StoreDTO;
@@ -115,6 +116,40 @@ public class StoreServiceImpl implements StoreService {
             jsonObject.put("result", "store not exists");
             return jsonObject;
         }
+    }
+
+    @Override
+    public JSONObject readAllCoordinateAroundStore(Double x, Double y) {
+        List<StoreDTO> stores = new ArrayList<>();
+        List<StoreEntity> storeEntities = this.storeDAO.readAllRoundStore(
+                RangeDTO.builder()
+                        // 약 1.1km
+                        .maxX(x+1)
+                        .minX(x-1)
+                        // 약 1.1km
+                        .minY(y-1)
+                        .maxY(y+1)
+                        .build()
+        );
+        for(StoreEntity storeEntity : storeEntities){
+            if(1D>this.addressService.dis(x, y, storeEntity.getCoordinateX(), storeEntity.getCoordinateY())){
+                StoreDTO storeDTO = StoreDTO.builder()
+                        .name(storeEntity.getName())
+                        .operatingTime(storeEntity.getOperatingTime())
+                        .storePhoneNumber(storeEntity.getStorePhoneNumber())
+                        .address(storeEntity.getAddress())
+                        .menu(storeEntity.getMenu())
+                        .id(storeEntity.getId())
+                        .coordinateX(storeEntity.getCoordinateX())
+                        .coordinateY(storeEntity.getCoordinateY())
+                        .images(storeEntity.getImages())
+                        .build();
+                stores.add(storeDTO);
+            }
+        }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("stores", stores);
+        return jsonObject;
     }
 
     @Override

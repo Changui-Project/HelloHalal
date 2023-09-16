@@ -12,7 +12,7 @@ spring:
 
   # database 연결관련
   datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://svc.sel5.cloudtype.app:31347/halal?createDatabaseIfNotExist=true
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/halal?createDatabaseIfNotExist=true
     username: root
     password: ?Qweasd7410

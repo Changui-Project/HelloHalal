@@ -32,7 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if(token != null && jwtTokenProvider.validateToken(token)){
             // ContextHolder에 추가하기 위한 Authentication을 생성한다.
             Authentication authentication = jwtTokenProvider.getAuthentication(token);
-            // ContetHolder에 Authentication 추가
+            // ContetHolder에 Authentication 추가출
             SecurityContextHolder.getContext().setAuthentication(authentication);
             logger.info("[JwtAuthenticationFilter] 유효성 체크 완료");
         }

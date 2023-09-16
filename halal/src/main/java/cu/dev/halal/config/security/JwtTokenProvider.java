@@ -70,7 +70,9 @@ public class JwtTokenProvider {
         logger.info("[JwtTokenProvider] getAuthentication, 토큰 인증 조회 시작");
         // UserDetailsService를 이용해 유저의 ID로 UserEntity를 가져온다.
         UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUsername(token));
-        logger.info("[JwtTokenProvider] getAuthentication userName : "+ userDetails.getUsername());
+
+        logger.info("[JwtTokenProvider] getAuthentication userName : " + userDetails.getUsername());
+
         // Authentication을 상속하는 usernamePassword~~를 생성
         // Authentication을 ContextHolder에 추가하여 유저를 검증한다.
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
@@ -86,6 +88,7 @@ public class JwtTokenProvider {
 
     public String resolveToken(HttpServletRequest request){
         logger.info("[JwtTokenProvider] resolveToken, 헤더에서 토큰 값 추출");
+        logger.info(request.getHeader("Content-Type"));
         return request.getHeader("Authorization");
     }
 

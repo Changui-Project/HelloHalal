@@ -1,10 +1,8 @@
 package cu.dev.halal.controller;
 
 
-import com.google.gson.JsonObject;
 import cu.dev.halal.dto.RangeDTO;
 import cu.dev.halal.dto.StoreDTO;
-import cu.dev.halal.entity.StoreEntity;
 import cu.dev.halal.service.StoreService;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -19,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@CrossOrigin(origins = "*")
+
 @RestController
 @RequestMapping("/store")
 public class StoreController {

@@ -7,21 +7,22 @@
     <button id="fetchButton">API 요청 보내기</button>
     <script>
         document.getElementById("fetchButton").addEventListener("click", function() {
-            const apiUrl = "https://apis.data.go.kr/B551011/ForFriTourService/locationBasedList";
-            const serviceKey = "INPDOyrXXImnGdmHVQ0dbbSxVooQk7kDVX7dYfzS%2BNLdsx%2BRwnE5Z7zHLdCIIB2B7i4CrOVGm2j3z4F2%2FIT1bg%3D%3D";
-            const numOfRows = 1000;
-            const pageNo = 1;
-            const MobileOS = "ETC";
-            const MobileApp = "APP";
-            const arrange = "C";
-            const mapX = 128.4988125;
-            const mapY = 35.8589654;
-            const radius = 20000;
-            const dataType = "json";
+            const apiUrl = "http://127.0.0.1:8080/review";
+            // const serviceKey = "INPDOyrXXImnGdmHVQ0dbbSxVooQk7kDVX7dYfzS%2BNLdsx%2BRwnE5Z7zHLdCIIB2B7i4CrOVGm2j3z4F2%2FIT1bg%3D%3D";
+            // const numOfRows = 1000;
+            // const pageNo = 1;
+            // const MobileOS = "ETC";
+            // const MobileApp = "APP";
+            // const arrange = "C";
+            // const mapX = 128.4988125;
+            // const mapY = 35.8589654;
+            // const radius = 20000;
+            // const dataType = "json";
 
-            const apiUrlWithParams = `${apiUrl}?serviceKey=${serviceKey}&numOfRows=${numOfRows}&pageNo=${pageNo}&MobileOS=${MobileOS}&MobileApp=${MobileApp}&arrange=${arrange}&mapX=${mapX}&mapY=${mapY}&radius=${radius}&_type=${dataType}`;
+            // const apiUrlWithParams = `${apiUrl}?serviceKey=${serviceKey}&numOfRows=${numOfRows}&pageNo=${pageNo}&MobileOS=${MobileOS}&MobileApp=${MobileApp}&arrange=${arrange}&mapX=${mapX}&mapY=${mapY}&radius=${radius}&_type=${dataType}`;
 
-            fetch(apiUrlWithParams)
+            fetch(apiUrl,{
+  mode: 'no-cors'})
                 .then(response => response.json())
                 .then(data => {
                     // API 응답 데이터를 처리하여 화면에 표시하거나 다른 작업을 수행할 수 있습니다.

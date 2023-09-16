@@ -14,7 +14,7 @@ public class CorsConfiguration implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins("http://172.20.10.3:5173")
                 .allowedOrigins("http://121.55.117.123")
-                .allowedOrigins("http://hocalhost/")
+                .allowedOrigins("http://localhost/")
                 .allowedMethods("*")
                 .allowedHeaders("*")
                 .allowCredentials(true)

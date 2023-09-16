@@ -52,9 +52,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 // 허용할 주소 ex: 로그인, 회원가입
                 .antMatchers("/auth/signin", "/auth/signup", "/image/**", "/test/**").permitAll()
-                // .antMatchers(HttpMethod.GET, "/salespost", "/promotionalpost").permitAll()
-//                // 권한 체크가 완료된 ADMIN과 USER에게 제공되는 API
-                //.antMatchers("/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+                // 인증이 완료되면 모든 api 접근 허용
                 .antMatchers("/**").authenticated()
                 // 개발용 설정
                 //.anyRequest().hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
@@ -86,6 +84,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         // 모든 요청 헤더 허용
         config.setAllowedHeaders(Arrays.asList("*"));
         source.registerCorsConfiguration("/**", config);
+
 
         return source;
     }

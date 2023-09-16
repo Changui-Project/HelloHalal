@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/store")
 public class StoreController {
